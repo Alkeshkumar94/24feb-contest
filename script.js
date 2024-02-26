@@ -152,6 +152,13 @@ function handleSearch() {
     );
     renderTable(filteredData);
 }
+searchbar.addEventListener('keypress', function(event) {
+    // Check if the key pressed is Enter key (keyCode 13)
+    if (event.keyCode === 13) {
+        // Call handleSearch function when Enter key is pressed
+        handleSearch();
+    }
+});
 function sortByNameAZ() {
     const sortedData = students.sort((a, b) => (a.first_name + ' ' + a.last_name).localeCompare(b.first_name + ' ' + b.last_name));
     renderTable(sortedData);
@@ -168,8 +175,9 @@ function sortByMarks() {
 }
 
 function sortByPassing() {
-    const sortedData = students.filter(student => student.passing);
-    renderTable(sortedData);
+    const passingData = students.filter(student => student.passing);
+    const failedData = students.filter(student => !student.passing);
+    renderTable([...passingData,...failedData]);
 }
 
 function sortByClass() {
